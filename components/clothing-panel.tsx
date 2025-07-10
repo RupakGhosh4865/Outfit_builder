@@ -27,7 +27,7 @@ export default function ClothingPanel({ items, categories }: ClothingPanelProps)
       if (activeCategory === "tops") matchesCategory = item.type === "shirt";
       else if (activeCategory === "bottoms") matchesCategory = item.type === "pants";
       else if (activeCategory === "shoes") matchesCategory = item.type === "shoes";
-      else if (activeCategory === "accessories") matchesCategory = ["hat", "belt", "sunglasses"].includes(item.type);
+      else if (activeCategory === "accessories") matchesCategory = ["hat", "belt1", "belt2", "sunglasses"].includes(item.type);
     }
     return matchesSearch && matchesCategory;
   });

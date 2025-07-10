@@ -5,6 +5,7 @@ import VirtualCanvas from "@/components/virtual-canvas";
 import Navbar from "@/components/navbar";
 import { signOut } from "next-auth/react";
 import { dummyClothingItems } from "@/components/dummy-clothing-items";
+import { useSession } from "next-auth/react";
 
 // SVG icon components (reuse from your code)
 const IconAll = () => (
@@ -32,11 +33,14 @@ const CATEGORIES = [
 ];
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  const userName = session?.user?.name || "Demo User";
+  const userEmail = session?.user?.email || "demo@stylecraft.com";
   const [clothingItems] = useState(dummyClothingItems);
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 900;
   return (
     <div style={{ width: "100%" }}>
-      <Navbar userName="Demo User" userEmail="demo@stylecraft.com" />
+      <Navbar userName={userName} userEmail={userEmail} />
       <div style={{
         display: "flex",
         flexDirection: isMobile ? "column" : "row",

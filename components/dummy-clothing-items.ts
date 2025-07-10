@@ -18,8 +18,8 @@ export const dummyClothingItems = [
   { id: 'shoes4', name: 'Shoes 4', image: '/Assets/shoes/shoes4.jpg', price: 52.99, type: 'shoes' },
   { id: 'shoes5', name: 'Shoes 5', image: '/Assets/shoes/shoes5.png', price: 59.99, type: 'shoes' },
   // Accessories
-  { id: 'belt', name: 'Belt', image: '/Assets/accessories/belt.jpg', price: 15.99, type: 'belt' },
-  { id: 'belt2', name: 'Belt 2', image: '/Assets/accessories/belt2.webp', price: 17.99, type: 'belt' },
+  { id: 'belt', name: 'Belt', image: '/Assets/accessories/belt.jpg', price: 15.99, type: 'belt1' },
+  { id: 'belt2', name: 'Belt 2', image: '/Assets/accessories/belt2.webp', price: 17.99, type: 'belt2' },
   { id: 'cap', name: 'Cap', image: '/Assets/accessories/cap.png', price: 13.99, type: 'hat' },
   { id: 'hat', name: 'Hat', image: '/Assets/accessories/hat.png', price: 18.99, type: 'hat' },
   { id: 'sunglasses', name: 'Sunglasses', image: '/Assets/accessories/sunglasses.jpg', price: 12.99, type: 'sunglasses' },

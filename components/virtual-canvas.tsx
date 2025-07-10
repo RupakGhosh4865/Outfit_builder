@@ -13,21 +13,49 @@ const DropTargetIcon = () => (
 // Dummy fallback items
 const dummyProducts = [
   {
+    id: "cap-1",
+    name: "Cap",
+    image: "/Assets/accessories/cap.png",
+    price: 12,
+    type: "cap",
+  },
+  {
     id: "hat-1",
     name: "Hat",
     image: "/Assets/accessories/hat.png",
-    price: 10,
+    price: 15,
     type: "hat",
   },
   {
-    id: "top-1",
+    id: "sunglasses-1",
+    name: "Sunglasses",
+    image: "/Assets/accessories/sunglasses.jpg",
+    price: 10,
+    type: "sunglasses",
+  },
+  {
+    id: "shirt-1",
     name: "Top",
     image: "/Assets/tops/top1.webp",
     price: 15,
     type: "shirt",
   },
   {
-    id: "bottom-1",
+    id: "belt-1",
+    name: "Belt 1",
+    image: "/Assets/accessories/belt.jpg",
+    price: 8,
+    type: "belt1",
+  },
+  {
+    id: "belt-2",
+    name: "Belt 2",
+    image: "/Assets/accessories/belt2.webp",
+    price: 9,
+    type: "belt2",
+  },
+  {
+    id: "pants-1",
     name: "Bottom",
     image: "/Assets/bottoms/bottom1.webp",
     price: 25,
@@ -71,23 +99,25 @@ export default function VirtualCanvas() {
       .catch(() => setProducts(dummyProducts));
   }, []);
 
-  // Update typeOrder to match your types
-  const typeOrder = ["hat", "shirt", "pants", "shoes"];
+  // Update typeOrder to ensure belts are after shirt and before pants
+  const typeOrder = ["cap", "hat", "sunglasses", "shirt", "belt1", "belt2", "pants", "shoes"];
   const baseX = 250;
-  const baseY = 100;
-  const yStep = 120;
+  const baseY = 40;
+  const yStep = 100;
   const handleDrop = (item: Product, _x: number, _y: number) => {
     // Remove any existing item of the same type
     let newItems = canvasItems.filter((ci) => ci.type !== item.type);
-    // Find the index for this type
-    const idx = typeOrder.indexOf(item.type);
-    if (idx === -1) return; // Only allow dropping items that are part of the outfit
-    // Place at the correct vertical position
-    const x = baseX;
-    const y = baseY + idx * yStep;
-    newItems.push({ ...item, x, y });
-    // Sort by type order for consistent rendering
-    newItems = newItems.sort((a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type));
+    // Add or replace the dropped item
+    newItems.push({ ...item, x: 0, y: 0 });
+    // Always re-calculate y positions based on typeOrder
+    newItems = newItems
+      .filter(ci => typeOrder.includes(ci.type))
+      .sort((a, b) => typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type))
+      .map((ci, idx) => ({
+        ...ci,
+        x: baseX,
+        y: baseY + idx * yStep,
+      }));
     setCanvasItems(newItems);
   };
 
@@ -196,11 +226,16 @@ export default function VirtualCanvas() {
           onDragLeave={() => setIsDragging(false)}
           onDrop={e => {
             setIsDragging(false);
-            const item = JSON.parse(e.dataTransfer.getData("item"));
-            const rect = canvasRef.current?.getBoundingClientRect();
-            const x = rect ? e.clientX - rect.left : 100;
-            const y = rect ? e.clientY - rect.top : 100;
-            handleDrop(item, x, y);
+            try {
+              const droppedItem = JSON.parse(e.dataTransfer.getData("item"));
+              if (!droppedItem || !typeOrder.includes(droppedItem.type)) return; // Only accept allowed types
+              const rect = canvasRef.current?.getBoundingClientRect();
+              const x = rect ? e.clientX - rect.left : 100;
+              const y = rect ? e.clientY - rect.top : 100;
+              handleDrop(droppedItem, x, y);
+            } catch (err) {
+              // Ignore invalid drops
+            }
           }}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -230,10 +265,10 @@ export default function VirtualCanvas() {
               key={idx}
               style={{
                 position: "absolute",
-                left: item.x,
+                left: "50%",
                 top: item.y,
-                width: 100,
-                height: 100,
+                width: 110,
+                height: 110,
                 background: "#fff",
                 border: `2px solid #38bdf8`,
                 borderRadius: 20,
@@ -245,7 +280,8 @@ export default function VirtualCanvas() {
                 zIndex: draggedIdx === idx ? 2 : 1,
                 transition: draggedIdx === idx ? "none" : "box-shadow 0.2s, border 0.2s",
                 overflow: "hidden",
-                transform: draggedIdx === idx ? "scale(1.08)" : "scale(1)",
+                transformOrigin: "center",
+                transform: draggedIdx === idx ? "translateX(-50%) scale(1.08)" : "translateX(-50%) scale(1)",
               }}
               onMouseDown={e => handleMouseDown(idx, e)}
             >
