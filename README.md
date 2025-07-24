@@ -7,6 +7,14 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb)](https://mongodb.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+
+
+<!-- Uploading "Screenshot 2025-07-10 113043.png"... 
+
+<!-- Uploading "Screenshot 2025-07-10 001452.png"... -->
+
+<!-- Uploading "Screenshot 2025-07-10 001504.png"... -->
+
 > **StyleCraft** is a beautiful, modern, and fully interactive WYSIWYG outfit builder. Mix, match, and visualize your style with drag-and-drop ease. Perfect for fashion lovers, e-commerce, and creative teams!
 
 ---
